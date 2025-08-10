@@ -7,6 +7,7 @@ repository = "https://github.com/the-aNamee/evil-id"
 readme = "README.md"
 license = "MIT"
 keywords = ["id"]
+authors = ["Anamee"]
 categories = ["id"]
 
 [features]
