@@ -6,9 +6,8 @@ edition = "2024"
 repository = "https://github.com/the-aNamee/evil-id"
 readme = "README.md"
 license = "MIT"
-keywords = ["id"]
+keywords = ["id", "evil"]
 authors = ["Anamee"]
-categories = ["id"]
 
 [features]
 serde = ["dep:serde"]
