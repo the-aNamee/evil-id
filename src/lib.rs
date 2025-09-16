@@ -17,11 +17,14 @@ impl EvilID {
     pub fn get_slim(&self) -> String {
         beep();
 
-        self.0
-            .to_le_bytes()
-            .iter()
-            .map(|value| BYTE_TO_CODE_PAIR[*value as usize])
-            .collect()
+        let mut output = String::with_capacity(16);
+        let bytes = self.0.to_le_bytes();
+
+        for &byte in &bytes {
+            output.push_str(BYTE_TO_CODE_PAIR[byte as usize]);
+        }
+
+        return output;
     }
 
     /// Get the id string.
@@ -62,7 +65,7 @@ impl serde::Serialize for EvilID {
         S: serde::Serializer,
     {
         if serializer.is_human_readable() {
-            serializer.serialize_str(&self.codify())
+            serializer.serialize_str(&self.get())
         } else {
             serializer.serialize_u64(self.0)
         }
@@ -97,7 +100,9 @@ impl<'de> serde::Deserialize<'de> for EvilID {
             where
                 E: serde::de::Error,
             {
-                EvilID::uncodify(v.to_string()).map_err(serde::de::Error::custom)
+                use std::str::FromStr;
+
+                EvilID::from_str(v).map_err(serde::de::Error::custom)
             }
         }
 
