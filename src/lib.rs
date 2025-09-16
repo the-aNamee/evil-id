@@ -44,6 +44,17 @@ impl EvilID {
     }
 }
 
+#[cfg(feature = "number")]
+impl EvilID {
+    pub fn get_number(&self) -> NumberType {
+        self.0
+    }
+
+    pub fn new_from_number(num: NumberType) -> Self {
+        Self(num)
+    }
+}
+
 #[cfg(feature = "serde")]
 impl serde::Serialize for EvilID {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>

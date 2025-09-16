@@ -11,8 +11,9 @@ authors = ["Anamee"]
 
 [features]
 serde = ["dep:serde"]
+number = []
 beep = []
-all = ["serde", "beep"]
+all = ["serde", "number", "beep"]
 
 [dependencies]
 serde = { optional = true, version = "1.0.219" }
