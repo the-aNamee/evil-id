@@ -10,9 +10,9 @@ type NumberType = u64;
 
 /// Simply stores a u64 and allows it to be exported in a human readable format.
 #[derive(Clone, Copy, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct EvilID(NumberType);
+pub struct EvilId(NumberType);
 
-impl EvilID {
+impl EvilId {
     /// Get a basic version of the id string without any dashes.
     pub fn get_slim(&self) -> String {
         beep();
@@ -48,7 +48,7 @@ impl EvilID {
 }
 
 #[cfg(feature = "number")]
-impl EvilID {
+impl EvilId {
     pub fn get_number(&self) -> NumberType {
         self.0
     }
@@ -59,7 +59,7 @@ impl EvilID {
 }
 
 #[cfg(feature = "serde")]
-impl serde::Serialize for EvilID {
+impl serde::Serialize for EvilId {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
@@ -73,7 +73,7 @@ impl serde::Serialize for EvilID {
 }
 
 #[cfg(feature = "serde")]
-impl<'de> serde::Deserialize<'de> for EvilID {
+impl<'de> serde::Deserialize<'de> for EvilId {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -83,7 +83,7 @@ impl<'de> serde::Deserialize<'de> for EvilID {
         struct IDVisitor;
 
         impl<'de> Visitor<'de> for IDVisitor {
-            type Value = EvilID;
+            type Value = EvilId;
 
             fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
                 formatter.write_str("A u64 number or proper id string is required.")
@@ -93,7 +93,7 @@ impl<'de> serde::Deserialize<'de> for EvilID {
             where
                 E: serde::de::Error,
             {
-                Ok(EvilID(v))
+                Ok(EvilId(v))
             }
 
             fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
@@ -102,7 +102,7 @@ impl<'de> serde::Deserialize<'de> for EvilID {
             {
                 use std::str::FromStr;
 
-                EvilID::from_str(v).map_err(serde::de::Error::custom)
+                EvilId::from_str(v).map_err(serde::de::Error::custom)
             }
         }
 
@@ -110,13 +110,13 @@ impl<'de> serde::Deserialize<'de> for EvilID {
     }
 }
 
-impl Debug for EvilID {
+impl Debug for EvilId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_tuple("ID").field(&self.get()).finish()
     }
 }
 
-impl core::fmt::Display for EvilID {
+impl core::fmt::Display for EvilId {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         beep();
 
@@ -135,7 +135,7 @@ impl core::fmt::Display for EvilID {
     }
 }
 
-impl core::str::FromStr for EvilID {
+impl core::str::FromStr for EvilId {
     type Err = IllegalIDString;
 
     fn from_str(code: &str) -> Result<Self, Self::Err> {
@@ -179,7 +179,7 @@ impl core::fmt::Display for IllegalIDString {
 
 impl core::error::Error for IllegalIDString {}
 
-impl Default for EvilID {
+impl Default for EvilId {
     fn default() -> Self {
         Self::generate()
     }

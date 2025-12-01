@@ -1,14 +1,14 @@
-use evil_id::EvilID;
+use evil_id::EvilId;
 
 fn main() {
     let mut errors: u64 = 0;
 
-    for i in 1..=100000 {
-        let id = EvilID::generate();
+    for i in 1..=1000000 {
+        let id = EvilId::generate();
 
         let string = id.get();
 
-        let rebuilt_id = EvilID::new_from(string.clone());
+        let rebuilt_id = EvilId::new_from(string.clone());
 
         match rebuilt_id {
             Err(_) => {
